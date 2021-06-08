@@ -8,8 +8,8 @@ const { errors } = require('celebrate');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-//app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -23,7 +23,7 @@ const Router = require('./routes/routes');
 
 //app.use(cookieParser());
 
-app.use(requestLogger);
+//app.use(requestLogger);
 
 /* app.use(cors({
   origin: ['http://eganovich.nomoredomains.rocks', 'https://eganovich.nomoredomains.rocks'],

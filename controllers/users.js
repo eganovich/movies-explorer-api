@@ -10,18 +10,6 @@ const AuthFailedError = require('../errors/auth-failed-error');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-/* module.exports.getUserById = (req, res, next) => {
-  const { userId } = req.params;
-  User.findById(userId)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Такой пользователь не найден');
-      }
-      return res.send(user);
-    })
-    .catch(next);
-}; */
-
 module.exports.getUserInfo = (req, res, next) => {
   const userId = req.user._id;
   User.findById(userId)
@@ -54,6 +42,8 @@ module.exports.updateUserInfo = (req, res, next) => {
         throw new ValidationError(`${Object.values(err.errors)
           .map((error) => error.message)
           .join(', ')}`);
+      } else if (err.name === 'MongoError' && err.code === 11000) {
+        throw new NotUniqueEmailError('Пользователь с таким email уже существует');
       } else {
         next(err);
       }
@@ -66,17 +56,13 @@ module.exports.createUser = (req, res, next) => {
     .then((hash) => {
       User.create({
         email: req.body.email,
-        password: hash,
         name: req.body.name,
-        about: req.body.about,
-        avatar: req.body.avatar,
+        password: hash,
       })
         .then((user) => res.send({
           _id: user._id,
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
           email: user.email,
+          name: user.name,
         }))
         .catch((err) => {
           if (err.name === 'ValidationError') {
@@ -119,8 +105,6 @@ module.exports.login = (req, res, next) => {
         token,
         _id: user._id,
         name: user.name,
-        about: user.about,
-        avatar: user.avatar,
         email: user.email,
       });
     })

@@ -22,7 +22,6 @@ module.exports.getUserInfo = (req, res, next) => {
     .catch(next);
 };
 
-
 module.exports.updateUserInfo = (req, res, next) => {
   const userId = req.user._id;
   const { name, email } = req.body;

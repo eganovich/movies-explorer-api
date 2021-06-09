@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 
 const {
-  getUserInfo, updateUserInfo
+  getUserInfo, updateUserInfo,
 } = require('../controllers/users');
 
 router.get('/me', getUserInfo);

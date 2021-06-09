@@ -2,8 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-//const cors = require('cors');
-//const cookieParser = require('cookie-parser'); */
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -11,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
@@ -21,18 +19,11 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
 
 const Router = require('./routes/routes');
 
-//app.use(cookieParser());
-
-//app.use(requestLogger);
-
-/* app.use(cors({
-  origin: ['http://eganovich.nomoredomains.rocks', 'https://eganovich.nomoredomains.rocks'],
-  credentials: true,
-})); */
+app.use(requestLogger);
 
 app.use(Router);
 
-//app.use(errorLogger);
+app.use(errorLogger);
 
 app.use(errors());
 

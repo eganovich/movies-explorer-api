@@ -26,23 +26,10 @@ app.use(Router);
 
 app.use(errorLogger);
 
-const corsWhiteList = [
-  'http://eganovich-diploma.nomoredomains.monster',
-  'https://eganovich-diploma.nomoredomains.monster',
-  'https://localhost:3000',
-  'http://localhost:3000',
-];
-
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (corsWhiteList.indexOf(origin) !== -1) {
-      callback(null, true);
-    }
-  },
+app.use(cors({
+  origin: ['http://eganovich-diploma.nomoredomains.monster', 'https://eganovich-diploma.nomoredomains.monster', 'https://localhost:3000', 'http://localhost:3000'],
   credentials: true,
-};
-
-app.use(cors(corsOptions));
+}));
 
 app.use(errors());
 

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
+const cors = require('cors');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -24,6 +25,11 @@ app.use(requestLogger);
 app.use(Router);
 
 app.use(errorLogger);
+
+app.use(cors({
+  origin: ['http://eganovich-diploma.nomoredomains.monster', 'https://eganovich-diploma.nomoredomains.monster', 'http://localhost:3000/'],
+  credentials: true,
+}));
 
 app.use(errors());
 

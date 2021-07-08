@@ -28,7 +28,7 @@ app.use(errorLogger);
 
 app.use(cors({
   //origin: ['http://eganovich-diploma.nomoredomains.monster', 'https://eganovich-diploma.nomoredomains.monster', 'https://localhost:3000', 'http://localhost:3000'],
-  origin: 'http://localhost:3000',
+  origin: '*',
   credentials: true,
 }));
 
